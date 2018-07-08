@@ -1,35 +1,45 @@
 package jp.ac.titech.itpro.sdl.cooknote.model
 
+import android.os.Build
+import android.os.Debug
+import android.text.Html
+import android.text.Html.fromHtml
+import android.text.Spanned
+import android.util.Log
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import jp.ac.titech.itpro.sdl.cooknote.library.ExtractContent
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
-data class Recipe (val html: String = "",
-                   val title: String = "",
-                   val ingredients: Ingredients = Ingredients(),
-                   val process: Process = Process()){
+data class Recipe (val recipeText: String = ""){
     companion object {
-        fun getName(uri: String): Single<Recipe>{
-            return Single.create<Document>{
+        fun getRecipe(uri: String): Single<Recipe>{
+            return Single.create<WebDocument>{
                 val document = Jsoup.connect(uri).get()
-                it.onSuccess(document)
+                it.onSuccess(WebDocument(uri, document))
             }.flatMap {
-                /*
-                    概要：class entry-content > p
-                    材料：class ingredients > ul > ui
-                    作り方：class ingredients ... ol > li class process
-                    ポイント：class entry-content > h3 class point下のp
-                 */
-                val html = it.getElementsByClass("entry-content").first()
-                val title = it.select(".entry-title").first().text()
-                val ingredients = it.select(".entry-content ul li").eachText()
-                val process = it.select(".entry-content ol li").eachText()
+                val document = it.document
+                val imgs = document.getElementsByTag("img")
+                for (img in imgs){
+                    img.remove()
+                }
+                val html = ExtractContent.analyse(document.body().html())
 
-                Single.just(Recipe(html = html.html(), title = title, ingredients = Ingredients(ingredients),
-                        process = Process(process)))
+                var recipeText = fromHtml(html).toString()
+                Log.d("cooknote", recipeText)
+
+                Single.just(Recipe(recipeText = recipeText))
             }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        }
+
+        fun fromHtml(html: String): Spanned{
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                return Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY);
+            } else {
+                return Html.fromHtml(html);
+            }
         }
     }
 }

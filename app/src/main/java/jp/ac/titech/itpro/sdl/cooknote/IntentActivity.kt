@@ -17,12 +17,12 @@ class IntentActivity : AppCompatActivity() {
         val uri = shareIntent.getStringExtra("uri")
         //val webHtml = Jsoup.connect(uri).get()
         //val title = webHtml.select(".entry-title").first().text()
-        Recipe.getName(uri).subscribe(object : DisposableSingleObserver<Recipe>() {
+        Recipe.getRecipe(uri).subscribe(object : DisposableSingleObserver<Recipe>() {
             override fun onSuccess(recipe: Recipe) {
 
-                recipe_title.text = recipe.title
-                ingredients.text = recipe.ingredients.toString("\n")
-                process.text = recipe.process.toString("\n")
+                recipe_text.text = recipe.recipeText
+                // ingredients.text = recipe.ingredients.toString("\n")
+                // process.text = recipe.process.toString("\n")
             }
 
             override fun onError(e: Throwable) {
