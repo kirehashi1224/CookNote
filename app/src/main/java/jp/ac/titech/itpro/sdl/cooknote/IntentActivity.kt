@@ -19,7 +19,10 @@ class IntentActivity : AppCompatActivity() {
         //val title = webHtml.select(".entry-title").first().text()
         Recipe.getName(uri).subscribe(object : DisposableSingleObserver<Recipe>() {
             override fun onSuccess(recipe: Recipe) {
-                intentTest.text = recipe.name
+
+                recipe_title.text = recipe.title
+                ingredients.text = recipe.ingredients.toString("\n")
+                process.text = recipe.process.toString("\n")
             }
 
             override fun onError(e: Throwable) {
