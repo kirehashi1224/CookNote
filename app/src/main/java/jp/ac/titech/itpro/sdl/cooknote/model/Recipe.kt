@@ -13,7 +13,7 @@ import jp.ac.titech.itpro.sdl.cooknote.library.ExtractContent
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
-data class Recipe (val recipeText: String = ""){
+data class Recipe (val uri: String, val title: String, val recipeText: String = ""){
     companion object {
         fun getRecipe(uri: String): Single<Recipe>{
             return Single.create<WebDocument>{
@@ -30,7 +30,7 @@ data class Recipe (val recipeText: String = ""){
                 var recipeText = fromHtml(html).toString()
                 Log.d("cooknote", recipeText)
 
-                Single.just(Recipe(recipeText = recipeText))
+                Single.just(Recipe(uri = it.uri, title = document.title(), recipeText = recipeText))
             }.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         }
 

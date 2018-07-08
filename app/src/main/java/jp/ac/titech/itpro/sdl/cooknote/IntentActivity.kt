@@ -20,7 +20,9 @@ class IntentActivity : AppCompatActivity() {
         Recipe.getRecipe(uri).subscribe(object : DisposableSingleObserver<Recipe>() {
             override fun onSuccess(recipe: Recipe) {
 
-                recipe_text.text = recipe.recipeText
+                recipe_uri.text = recipe.uri
+                recipe_title.text = recipe.title
+                // recipe_text.text = recipe.recipeText
                 // ingredients.text = recipe.ingredients.toString("\n")
                 // process.text = recipe.process.toString("\n")
             }
