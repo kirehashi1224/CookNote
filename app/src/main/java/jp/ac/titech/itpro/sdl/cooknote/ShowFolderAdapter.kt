@@ -1,15 +1,10 @@
 package jp.ac.titech.itpro.sdl.cooknote
 
-import android.content.ContentValues
 import android.content.Intent
-import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
-import jp.ac.titech.itpro.sdl.cooknote.db.RecipeOpenHelper
-import jp.ac.titech.itpro.sdl.cooknote.model.Recipe
 
 class ShowFolderAdapter(folders: List<String>): RecyclerView.Adapter<ShowFolderViewHolder>(){
     private val folderList = folders
@@ -27,7 +22,7 @@ class ShowFolderAdapter(folders: List<String>): RecyclerView.Adapter<ShowFolderV
             val folderName = folderList[position]
             // Toast.makeText(it.context, "${folderName}", Toast.LENGTH_SHORT).show()
 
-            val intent = Intent(it.context, recipeDetailActivity::class.java)
+            val intent = Intent(it.context, RecipeDetailActivity::class.java)
             // intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             intent.putExtra("folder", folderName)
             it.context.startActivity(intent)

@@ -7,7 +7,7 @@ import jp.ac.titech.itpro.sdl.cooknote.db.RecipeOpenHelper
 import jp.ac.titech.itpro.sdl.cooknote.model.Recipe
 import kotlinx.android.synthetic.main.activity_recipe_detail.*
 
-class recipeDetailActivity : AppCompatActivity() {
+class RecipeDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

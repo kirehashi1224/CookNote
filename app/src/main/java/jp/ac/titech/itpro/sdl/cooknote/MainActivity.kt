@@ -4,12 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.text.TextUtils
 import android.util.Log
 import jp.ac.titech.itpro.sdl.cooknote.db.RecipeOpenHelper
-import kotlinx.android.synthetic.main.activity_intent.*
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,5 +38,28 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = llManager
         val adapter = ShowFolderAdapter(folderList)
         recyclerView.adapter = adapter
+
+        main_search_view.setIconifiedByDefault(false)
+        main_search_view.setSubmitButtonEnabled(true)
+
+        main_search_view.setOnQueryTextListener(object : android.widget.SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String): Boolean {
+                Log.d("main_query_change", newText)
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                Log.d("main_query_submit", query)
+                if(!TextUtils.isEmpty(query)){
+                    val intent = Intent(applicationContext, SearchResultActivity::class.java)
+                    intent.putExtra("query", query)
+                    startActivity(intent)
+                }
+                return true
+            }
+
+        })
     }
+
+
 }
