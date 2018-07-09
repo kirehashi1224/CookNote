@@ -13,7 +13,7 @@ import jp.ac.titech.itpro.sdl.cooknote.library.ExtractContent
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 
-data class Recipe (val uri: String, val title: String, val recipeText: String = ""){
+data class Recipe (val uri: String, val title: String, val recipeText: String = "", var folder: String? = null){
     companion object {
         fun getRecipe(uri: String): Single<Recipe>{
             return Single.create<WebDocument>{
