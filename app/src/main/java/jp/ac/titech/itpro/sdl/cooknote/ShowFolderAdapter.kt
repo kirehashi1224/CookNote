@@ -24,16 +24,13 @@ class ShowFolderAdapter(folders: List<String>): RecyclerView.Adapter<ShowFolderV
     override fun onBindViewHolder(holder: ShowFolderViewHolder, position: Int) {
         holder.folderName.text = folderList[position]
         holder.base.setOnClickListener {
-            val db = RecipeOpenHelper(holder.base.context).writableDatabase
             val folderName = folderList[position]
-            Toast.makeText(it.context, "${folderName}", Toast.LENGTH_SHORT).show()
+            // Toast.makeText(it.context, "${folderName}", Toast.LENGTH_SHORT).show()
 
             val intent = Intent(it.context, recipeDetailActivity::class.java)
             // intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             intent.putExtra("folder", folderName)
             it.context.startActivity(intent)
-
-            val cursor = db.query(RecipeOpenHelper.RECIPE_TABLE, arrayOf("title"), "folder == ?", arrayOf(folderName), null, null, null, null)
         }
     }
 
