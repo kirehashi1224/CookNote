@@ -26,7 +26,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".IntentActivity" />
-        <activity android:name=".recipeDetailActivity"></activity>
+        <activity android:name=".recipeDetailActivity" />
+        <activity android:name=".WebViewActivity"></activity>
     </application>
 
 </manifest>

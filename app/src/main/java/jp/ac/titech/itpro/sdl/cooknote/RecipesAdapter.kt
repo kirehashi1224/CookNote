@@ -1,11 +1,9 @@
 package jp.ac.titech.itpro.sdl.cooknote
 
-import android.content.ContentValues
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
-import jp.ac.titech.itpro.sdl.cooknote.db.RecipeOpenHelper
 import jp.ac.titech.itpro.sdl.cooknote.model.Recipe
 
 class RecipesAdapter(recipes: List<Recipe>): RecyclerView.Adapter<RecipesViewHolder>(){
@@ -18,10 +16,12 @@ class RecipesAdapter(recipes: List<Recipe>): RecyclerView.Adapter<RecipesViewHol
     override fun onBindViewHolder(holder: RecipesViewHolder, position: Int) {
         holder.RecipeItemTitle.text = recipeList[position].title
         holder.base.setOnClickListener {
-            // val db = RecipeOpenHelper(holder.base.context).writableDatabase
-            val recipeTitle = recipeList[position].title
-            // db.insert(RecipeOpenHelper.RECIPE_TABLE, null, contentValues)
-            Toast.makeText(it.context, "${recipeTitle}", Toast.LENGTH_SHORT).show()
+            // val recipeTitle = recipeList[position].title
+            val uri = recipeList[position].uri
+            // Toast.makeText(it.context, "${recipeTitle}", Toast.LENGTH_SHORT).show()
+            val intent = Intent(it.context, WebViewActivity::class.java)
+            intent.putExtra("uri", uri)
+            it.context.startActivity(intent)
         }
     }
 
