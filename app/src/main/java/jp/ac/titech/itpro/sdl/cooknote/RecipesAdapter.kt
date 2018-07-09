@@ -39,6 +39,8 @@ class RecipesAdapter(recipes: List<Recipe>): RecyclerView.Adapter<RecipesViewHol
                                 val db = RecipeOpenHelper(it.context).writableDatabase
                                 db.delete(RecipeOpenHelper.RECIPE_TABLE, "_id = $id", null)
                                 this.notifyDataSetChanged()
+                                val intent = Intent(it.context, MainActivity::class.java)
+                                it.context.startActivity(intent)
                             }
                         }
                     }).show()

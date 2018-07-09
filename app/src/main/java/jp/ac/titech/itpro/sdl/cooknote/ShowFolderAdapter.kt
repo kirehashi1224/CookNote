@@ -3,6 +3,7 @@ package jp.ac.titech.itpro.sdl.cooknote
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -42,6 +43,8 @@ class ShowFolderAdapter(folders: List<String>): RecyclerView.Adapter<ShowFolderV
                                 val db = RecipeOpenHelper(it.context).writableDatabase
                                 db.delete(FOLDER_TABLE, "folder_name = $folderName", null)
                                 this.notifyDataSetChanged()
+                                val intent = Intent(it.context, MainActivity::class.java)
+                                it.context.startActivity(intent)
                             }
                         }
                     }).show()
