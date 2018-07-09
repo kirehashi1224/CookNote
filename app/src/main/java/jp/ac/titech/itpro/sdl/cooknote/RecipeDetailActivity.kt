@@ -17,12 +17,13 @@ class RecipeDetailActivity : AppCompatActivity() {
         val folderName = recipeDetailIntent.getStringExtra("folder")
 
         val db = RecipeOpenHelper(this).writableDatabase
-        val cursor = db.query(RecipeOpenHelper.RECIPE_TABLE, arrayOf("title", "uri"), "folder == ?", arrayOf(folderName), null, null, null, null)
+        val cursor = db.query(RecipeOpenHelper.RECIPE_TABLE, arrayOf("title", "uri", "_id"), "folder == ?", arrayOf(folderName), null, null, null, null)
         val recipeList = mutableListOf<Recipe>()
         if(cursor.moveToFirst()){
             do {
                 recipeList.add(Recipe(uri = cursor.getString(cursor.getColumnIndex("uri")),
-                        title = cursor.getString(cursor.getColumnIndex("title"))))
+                        title = cursor.getString(cursor.getColumnIndex("title")),
+                        id = cursor.getString(cursor.getColumnIndex("_id"))))
             }while (cursor.moveToNext())
 
             val recyclerView = recipe_item_recycler

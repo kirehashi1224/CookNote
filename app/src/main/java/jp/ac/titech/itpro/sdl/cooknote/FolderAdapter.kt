@@ -1,6 +1,8 @@
 package jp.ac.titech.itpro.sdl.cooknote
 
+import android.app.AlertDialog
 import android.content.ContentValues
+import android.content.DialogInterface
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -19,9 +21,9 @@ class FolderAdapter(folders: List<String>, recipe: Recipe): RecyclerView.Adapter
 
     override fun onBindViewHolder(holder: FolderViewHolder, position: Int) {
         holder.folderName.text = folderList[position]
+        val folderName = folderList[position]
         holder.base.setOnClickListener {
             val db = RecipeOpenHelper(holder.base.context).writableDatabase
-            val folderName = folderList[position]
             val contentValues = ContentValues().also {
                 it.put("title", recipe.title)
                 it.put("uri", recipe.uri)
@@ -30,6 +32,21 @@ class FolderAdapter(folders: List<String>, recipe: Recipe): RecyclerView.Adapter
             }
             db.insert(RECIPE_TABLE, null, contentValues)
             Toast.makeText(it.context, "${folderName}に登録しました", Toast.LENGTH_SHORT).show()
+        }
+        holder.base.setOnLongClickListener {
+            val items = arrayOf("削除")
+            AlertDialog.Builder(it.context)
+                    .setTitle("設定")
+                    .setItems(items, DialogInterface.OnClickListener { dialog, which ->
+                        when(which){
+                            0 ->{
+                                val db = RecipeOpenHelper(it.context).writableDatabase
+                                db.delete(RecipeOpenHelper.FOLDER_TABLE, "folder_name = $folderName", null)
+                                this.notifyDataSetChanged()
+                            }
+                        }
+                    }).show()
+            return@setOnLongClickListener true
         }
     }
 
